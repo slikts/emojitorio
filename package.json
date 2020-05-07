@@ -1,0 +1,27 @@
+{
+  "name": "emojitorio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slikts/emojitorio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slikts/emojitorio/issues"
+  },
+  "homepage": "https://github.com/slikts/emojitorio#readme",
+  "dependencies": {
+    "globby": "^11.0.0",
+    "yargs": "^15.3.1",
+    "nodemon": "^2.0.3",
+    "sharp": "^0.25.2"
+  },
+  "devDependencies": {}
+}
