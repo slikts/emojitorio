@@ -59,3 +59,4 @@ data.raw["night-vision-equipment"]["night-vision-equipment"].sprite.filename = i
 data.raw["item"]["night-vision-equipment"].icon = icon("goggles")
 data.raw["item"]["copper-cable"].icon = icon("crab-cable")
 data.raw["item"]["wood"].icon = icon("aubergine")
+data.raw["module"]["speed-module-3"].icon = icon("high-voltage-sign")
