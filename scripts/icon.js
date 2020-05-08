@@ -15,7 +15,11 @@ const _makeIcon = async (source, target) => {
   const sizes = [64, 32, 16, 8];
 
   const icons = await Promise.all(
-    sizes.map((size) => sharp(source).resize(size, size))
+    sizes.map((size, i) => {
+      const image = sharp(source).resize(size, size);
+
+      return i ? image.sharpen(0.475, 1, 0.25) : image;
+    })
   );
 
   const result = await sharp({

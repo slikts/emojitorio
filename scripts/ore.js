@@ -121,7 +121,7 @@ const Chunk = async ({
         .rotate(random(-rotationRange, rotationRange, bias), {
           background: { r: 0, g: 0, b: 0, alpha: 0 },
         })
-        .sharpen(bias + 1 - difference)
+        .sharpen(bias + 0.55 - difference, 1, 1)
         .toBuffer();
 
       return {
