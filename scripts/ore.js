@@ -6,6 +6,12 @@ sharp.cache(false);
 const generateOre = async ({
   argv: {
     _: [, name],
+    sides = 8,
+    chunkSize = 128,
+    itemRatio = 0.125,
+    marginRatio = 0.01,
+    rotationRange = 30,
+    perChunk = 40,
   },
 }) => {
   const fileNames = await globby(`emojis/${name}/*.png`);
@@ -14,27 +20,36 @@ const generateOre = async ({
   const targetName = `src/graphics/entity/${name}.png`;
   const hrTargetName = `src/graphics/entity/hr-${name}.png`;
 
-  const ore = await Ore({ icons });
+  const ore = await Ore({
+    icons,
+    chunkSize,
+    perChunk,
+    sides,
+    itemRatio,
+    marginRatio,
+    rotationRange,
+  });
   const hr = await sharp(await ore.png().toBuffer()); //.sharpen(1);
 
   console.log(hrTargetName);
   void (await hr.toFile(hrTargetName));
 
+  const size = (sides * chunkSize) / 2;
   console.log(targetName);
   void (await sharp(hrTargetName)
-    .resize(512, 512)
-    .sharpen(1)
+    .resize(size, size)
+    // .sharpen(1)
     .toFile(targetName));
 };
 
 const Ore = async ({
   icons,
-  chunkSize = 128,
-  perChunk = 40,
-  sides = 8,
-  itemRatio = 0.125,
-  marginRatio = 0.01,
-  rotationRange = 30,
+  chunkSize,
+  perChunk,
+  sides,
+  itemRatio,
+  marginRatio,
+  rotationRange,
 }) => {
   const result = await sharp({
     create: {
@@ -97,13 +112,16 @@ const Chunk = async ({
       const left = Math.round(random(margin, chunkSize - margin, 0.5));
 
       const randomSize = Math.round(random(baseSize * 0.5, baseSize, 0.5));
+      const difference = randomSize / baseSize;
+      const bias = 0.5;
+
       const input = await icons[random(0, icons.length - 1)]
         .clone()
         .resize(randomSize)
-        .rotate(random(-rotationRange, rotationRange, 0.5), {
+        .rotate(random(-rotationRange, rotationRange, bias), {
           background: { r: 0, g: 0, b: 0, alpha: 0 },
         })
-        .sharpen(1)
+        .sharpen(bias + 1 - difference)
         .toBuffer();
 
       return {
