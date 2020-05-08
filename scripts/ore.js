@@ -1,60 +1,128 @@
-const globby = require('globby')
+const globby = require('globby');
 const sharp = require('sharp');
 
+sharp.cache(false);
 
-const generateOre = async ({ argv: { _: [, name ] } }, chunkSize = 128, proportion = 0.125) => {
+const generateOre = async ({
+  argv: {
+    _: [, name],
+  },
+}) => {
   const fileNames = await globby(`emojis/${name}/*.png`);
-  const icons = await Promise.all(fileNames.map(fileName => sharp(fileName)))
-  
-  void (await generate({ icons, chunkSize: 128 }))
-    // .sharpen(100)
-    .toFile(`src/graphics/entity/hr-${name}.png`)
-  // generate({ icons, chunkSize: 64, outName: name })
-}
+  const icons = await all(fileNames.map((fileName) => sharp(fileName)));
 
-const generate = async ({ icons, chunkSize = 128, proportion = 0.125, outName }) => {
-  const baseSize = chunkSize * proportion
-  const chunks = 8
+  const targetName = `src/graphics/entity/${name}.png`;
+  const hrTargetName = `src/graphics/entity/hr-${name}.png`;
 
+  const ore = await Ore({ icons });
+  const hr = await sharp(await ore.png().toBuffer()); //.sharpen(1);
+
+  console.log(hrTargetName);
+  void (await hr.toFile(hrTargetName));
+
+  console.log(targetName);
+  void (await sharp(hrTargetName)
+    .resize(512, 512)
+    .sharpen(1)
+    .toFile(targetName));
+};
+
+const Ore = async ({
+  icons,
+  chunkSize = 128,
+  perChunk = 40,
+  sides = 8,
+  itemRatio = 0.125,
+  marginRatio = 0.01,
+  rotationRange = 30,
+}) => {
   const result = await sharp({
     create: {
-      width: chunks * chunkSize,
-      height: chunks * chunkSize,
+      width: sides * chunkSize,
+      height: sides * chunkSize,
       channels: 4,
-      background: { r: 0, g: 0, b: 0, alpha: 0 }
-    }
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    },
   });
-  
-  const perChunk = 40
-  const margin = 0.01
-  const images = []
 
-  for (const row of range(chunks)) {
-    for (const col of range(chunks)) {
-      for (const _ of range(perChunk)) {
-        const top = Math.round(random(margin * chunkSize, chunkSize - margin * chunkSize, 0.5))
-        const left = Math.round(random(margin * chunkSize, chunkSize - margin * chunkSize, 0.5))
-        const randomSize = Math.round(random(baseSize * 0.5, baseSize, 0.5))
-        const buffer = await icons[random(0, icons.length - 1)]
-          .resize(randomSize)
-          .rotate(random(-30, 30, .5), {background: { r: 0, g: 0, b: 0, alpha: 0 }})
-          .sharpen(1)
-          .toBuffer()
+  const chunks = await all(
+    range(sides)
+      .map((row) => range(sides).map((col) => ({ row, col })))
+      .flat()
+      .map(async ({ row, col }) => {
+        const top = row * chunkSize;
+        const left = col * chunkSize;
+        const input = await Chunk({
+          icons,
+          chunkSize,
+          marginRatio,
+          perChunk,
+          itemRatio,
+          rotationRange,
+        });
 
-        images.push({
-          input: buffer,
-          top: top + row * chunkSize,
-          left: left + col * chunkSize
+        return {
+          input,
+          top,
+          left,
+        };
+      })
+  );
+
+  return result.composite(chunks);
+};
+
+const Chunk = async ({
+  icons,
+  chunkSize,
+  itemRatio,
+  marginRatio,
+  perChunk,
+  rotationRange,
+}) => {
+  const chunk = await sharp({
+    create: {
+      width: chunkSize,
+      height: chunkSize,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    },
+  });
+  const baseSize = chunkSize * itemRatio;
+  const margin = chunkSize * marginRatio;
+
+  const images = await all(
+    range(perChunk).map(async () => {
+      const top = Math.round(random(margin, chunkSize - margin, 0.5));
+      const left = Math.round(random(margin, chunkSize - margin, 0.5));
+
+      const randomSize = Math.round(random(baseSize * 0.5, baseSize, 0.5));
+      const input = await icons[random(0, icons.length - 1)]
+        .clone()
+        .resize(randomSize)
+        .rotate(random(-rotationRange, rotationRange, 0.5), {
+          background: { r: 0, g: 0, b: 0, alpha: 0 },
         })
-      }
-    }
-  }
+        .sharpen(1)
+        .toBuffer();
 
-  return result.composite(images)
-}
+      return {
+        input,
+        top,
+        left,
+      };
+    })
+  );
 
-exports.generateOre = generateOre
+  return chunk.composite(images).png().toBuffer();
+};
+
+exports.generateOre = generateOre;
 
 const range = (length) => Array.from({ length }, (_, i) => i);
 
-const random = (min, max, bias = 1) => Math.floor(((Math.random() + Math.random() * bias) / 2) * (max - min + 1)) + min;
+const random = (min, max, bias = 1) =>
+  Math.floor(((Math.random() + Math.random() * bias) / 2) * (max - min + 1)) +
+  min;
+
+const all = (values) => Promise.all(values);
