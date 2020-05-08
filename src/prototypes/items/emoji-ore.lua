@@ -4,7 +4,7 @@ local icon_prefix = "__Emojitorio__/graphics/icons/emoji-ore"
 local icon = icon_prefix .. ".png"
 local _filenames = util.map(function(i)
   return icon_prefix .. '-' .. i .. '.png'
-end, util.range(1, 20))
+end, util.range(1, 15))
 local filenames = util.concat({ icon }, _filenames)
 local pictures = util.map(function(name)
   return {
@@ -14,8 +14,6 @@ local pictures = util.map(function(name)
     mipmap_count = 4
   }
 end, filenames)
-
-print(serpent.block(pictures))
 
 util.update(
   data.raw.item["iron-ore"],
