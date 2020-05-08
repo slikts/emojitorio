@@ -1,19 +1,19 @@
 const globby = require('globby')
 const sharp = require('sharp');
 
+
 const generateOre = async ({ argv: { _: [, name ] } }, chunkSize = 128, proportion = 0.125) => {
   const fileNames = await globby(`emojis/${name}/*.png`);
   const icons = await Promise.all(fileNames.map(fileName => sharp(fileName)))
   
-  generate({ icons, chunkSize: 128, outName: `hr-${name}` })
-  generate({ icons, chunkSize: 64, outName: name })
-
-
+  void (await generate({ icons, chunkSize: 128 }))
+    // .sharpen(100)
+    .toFile(`src/graphics/entity/hr-${name}.png`)
+  // generate({ icons, chunkSize: 64, outName: name })
 }
+
 const generate = async ({ icons, chunkSize = 128, proportion = 0.125, outName }) => {
-  const buffers = await Promise.all(icons.map(icon => icon
-    .resize(chunkSize * proportion, chunkSize * proportion)
-    .toBuffer()))
+  const baseSize = chunkSize * proportion
   const chunks = 8
 
   const result = await sharp({
@@ -25,7 +25,7 @@ const generate = async ({ icons, chunkSize = 128, proportion = 0.125, outName })
     }
   });
   
-  const perChunk = 8
+  const perChunk = 40
   const margin = 0.01
   const images = []
 
@@ -34,10 +34,15 @@ const generate = async ({ icons, chunkSize = 128, proportion = 0.125, outName })
       for (const _ of range(perChunk)) {
         const top = Math.round(random(margin * chunkSize, chunkSize - margin * chunkSize, 0.5))
         const left = Math.round(random(margin * chunkSize, chunkSize - margin * chunkSize, 0.5))
-        const input = buffers[random(0, buffers.length - 1)]
+        const randomSize = Math.round(random(baseSize * 0.5, baseSize, 0.5))
+        const buffer = await icons[random(0, icons.length - 1)]
+          .resize(randomSize)
+          .rotate(random(-30, 30, .5), {background: { r: 0, g: 0, b: 0, alpha: 0 }})
+          .sharpen(1)
+          .toBuffer()
 
         images.push({
-          input,
+          input: buffer,
           top: top + row * chunkSize,
           left: left + col * chunkSize
         })
@@ -45,7 +50,7 @@ const generate = async ({ icons, chunkSize = 128, proportion = 0.125, outName })
     }
   }
 
-  await result.composite(images).toFile(`src/graphics/entity/${outName}.png`)
+  return result.composite(images)
 }
 
 exports.generateOre = generateOre
