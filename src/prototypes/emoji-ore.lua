@@ -1,11 +1,8 @@
 local util = require('util')
 
-local icon_prefix = "__Emojitorio__/graphics/icons/emoji-ore"
-local icon = icon_prefix .. ".png"
-local _filenames = util.map(function(i)
-  return icon_prefix .. '-' .. i .. '.png'
-end, util.range(1, 15))
-local filenames = util.concat({ icon }, _filenames)
+local filenames = util.concat({ util.icon('emoji-ore') }, util.map(function(i)
+  return util.icon('emoji-ore-' .. i)
+end, util.range(1, 15)))
 local pictures = util.map(function(name)
   return {
     filename = name,
