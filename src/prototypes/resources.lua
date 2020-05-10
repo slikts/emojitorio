@@ -24,7 +24,7 @@ update_ore_item('uranium-ore', 'turtle-ore')
 
 local function update_ore_resource(resource_name, ore_name)
   local sheet = data.raw.resource[resource_name].stages.sheet
-  
+
   sheet.filename = util.graphic("entity/" .. ore_name)
   sheet.hr_version.filename = util.graphic("entity/hr-" .. ore_name)
 end
