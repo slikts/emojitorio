@@ -2,7 +2,11 @@ local util = require("util")
 
 local setting_names = {
   "items",
-  "resources",
+  "iron-ore",
+  "coal",
+  "stone",
+  "uranium-ore",
+  "copper-ore",
   "armors",
   "weapons",
   "vehicles",

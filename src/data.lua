@@ -4,10 +4,7 @@ local icon = util.icon
 local raw = data.raw
 local item = raw.item
 
-if (util.setting("change-items")) then
-  require("prototypes.resources")
-  raw.fluid.water.icon = icon("droplet")
-end
+require("prototypes.resources")
 
 if (util.setting("change-items")) then
   item["copper-plate"].icon = icon("crab-card")
@@ -59,6 +56,7 @@ if (util.setting("change-other")) then
   raw["night-vision-equipment"]["night-vision-equipment"].sprite.filename = icon("goggles")
   raw["module"]["speed-module-3"].icon = icon("high-voltage-sign")
   raw.beacon.beacon.icon = icon("bacon")
+  raw.fluid.water.icon = icon("droplet")
 end
 
 if (util.setting("change-science")) then
