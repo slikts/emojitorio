@@ -70,4 +70,6 @@ end
 
 if (util.setting("change-utility-sprites")) then
   raw['utility-sprites'].default['electricity_icon_unplugged'].filename = icon('thinking-face')
+  raw['utility-sprites'].default['ammo_icon'].filename = icon('anger-symbol')
+  raw['utility-sprites'].default['too_far_from_roboport_icon'].filename = icon('antenna-with-bars')
 end
