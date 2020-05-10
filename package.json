@@ -1,9 +1,10 @@
 {
   "name": "emojitorio",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
+  "description": "Factorio with emojis.",
+  "scripts": {
+    "image": "node scripts/image.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/slikts/emojitorio.git"
@@ -16,9 +17,6 @@
   },
   "homepage": "https://github.com/slikts/emojitorio#readme",
   "dependencies": {
-    "canvas": "^2.6.1",
-    "color": "^3.1.2",
-    "fontkit": "^1.8.1",
     "globby": "^11.0.0",
     "node-emoji": "^1.10.0",
     "nodemon": "^2.0.3",
