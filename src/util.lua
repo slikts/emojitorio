@@ -32,8 +32,12 @@ function util.concat(t1, t2)
     return t1
 end
 
+function util.graphic(name)
+  return "__Emojitorio__/graphics/" .. name .. ".png"
+end
+
 function util.icon(name)
-  return "__Emojitorio__/graphics/icons/" .. name .. ".png"
+  return util.graphic("icons/" .. name)
 end
 
 return util

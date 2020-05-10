@@ -2,7 +2,7 @@ local util = require('util')
 
 require('prototypes.emoji-ore')
 
-local function update_ore(item_name, icon_name)
+local function update_ore_item(item_name, icon_name)
   local icon = util.icon(icon_name)
 
   util.update(
@@ -16,24 +16,21 @@ local function update_ore(item_name, icon_name)
   )
 end
 
-update_ore('copper-ore', 'crab-ore')
-update_ore('coal', 'pile-of-poo')
-update_ore('stone', 'cut-of-meat')
-update_ore('uranium-ore', 'turtle-ore')
+update_ore_item('copper-ore', 'crab-ore')
+update_ore_item('coal', 'pile-of-poo')
+update_ore_item('stone', 'cut-of-meat')
+update_ore_item('uranium-ore', 'turtle-ore')
 
-local resource = data.raw.resource
 
-resource['copper-ore'].stages.sheet.filename = "__Emojitorio__/graphics/entity/crab-ore.png"
-resource['copper-ore'].stages.sheet.hr_version.filename = "__Emojitorio__/graphics/entity/hr-crab-ore.png"
+local function update_ore_resource(resource_name, ore_name)
+  local sheet = data.raw.resource[resource_name].stages.sheet
+  
+  sheet.filename = util.graphic("entity/" .. ore_name)
+  sheet.hr_version.filename = util.graphic("entity/hr-" .. ore_name)
+end
 
-resource['iron-ore'].stages.sheet.filename = "__Emojitorio__/graphics/entity/emoji-ore.png"
-resource['iron-ore'].stages.sheet.hr_version.filename = "__Emojitorio__/graphics/entity/hr-emoji-ore.png"
-
-resource['stone'].stages.sheet.filename = "__Emojitorio__/graphics/entity/meat-ore.png"
-resource['stone'].stages.sheet.hr_version.filename = "__Emojitorio__/graphics/entity/hr-meat-ore.png"
-
-resource['coal'].stages.sheet.filename = "__Emojitorio__/graphics/entity/pile-of-poo.png"
-resource['coal'].stages.sheet.hr_version.filename = "__Emojitorio__/graphics/entity/hr-pile-of-poo.png"
-
-resource['uranium-ore'].stages.sheet.filename = "__Emojitorio__/graphics/entity/turtle-ore.png"
-resource['uranium-ore'].stages.sheet.hr_version.filename = "__Emojitorio__/graphics/entity/hr-turtle-ore.png"
+update_ore_resource("copper-ore", "crab-ore")
+update_ore_resource("iron-ore", "emoji-ore")
+update_ore_resource("stone", "meat-ore")
+update_ore_resource("coal", "pile-of-poo")
+update_ore_resource("uranium-ore", "turtle-ore")
