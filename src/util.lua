@@ -40,4 +40,8 @@ function util.icon(name)
   return util.graphic("icons/" .. name)
 end
 
+function util.setting(name)
+  return settings.startup["emojitorio-" .. name].value
+end
+
 return util
