@@ -74,6 +74,8 @@ if (util.setting("change-utility-sprites")) then
   raw['utility-sprites'].default['ammo_icon'].filename = icon('anger-symbol')
   raw['utility-sprites'].default['fuel_icon'].filename = icon('anger-symbol')
   raw['utility-sprites'].default['too_far_from_roboport_icon'].filename = icon('antenna-with-bars')
+  raw['utility-sprites'].default['no_building_material_icon'].filename = icon('thonk')
+  raw['utility-sprites'].default['not_enough_construction_robots_icon'].filename = icon('thonk')
   local ghost_cursor = raw['utility-sprites'].default['ghost_cursor']
   ghost_cursor.filename = util.graphic('ghost')
   ghost_cursor.size = 64
