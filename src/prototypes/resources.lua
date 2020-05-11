@@ -7,6 +7,7 @@ local function update_ore_item(item_name, icon_name)
     data.raw.item[item_name],
     {
       icon = icon,
+      dark_background_icon = icon,
       pictures = {
         { size = 64, filename = icon, scale = 0.25, mipmap_count = 4 },
       }
