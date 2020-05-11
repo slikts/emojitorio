@@ -44,10 +44,10 @@ end
 
 if (util.setting("change-armors")) then
   raw.armor["light-armor"].icon = icon("socks")
-  raw.armor["power-armor"].icon = icon("dress")
+  raw.armor["power-armor"].icon = icon("martial-arts-uniform")
   raw.armor["power-armor-mk2"].icon = icon("kimono")
   raw.armor["heavy-armor"].icon = icon("briefs")
-  raw.armor["modular-armor"].icon = icon("t-shirt")
+  raw.armor["modular-armor"].icon = icon("dress")
 end
 
 if (util.setting("change-other")) then
