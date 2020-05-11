@@ -32,6 +32,7 @@ end
 if (util.setting("change-vehicles")) then
   raw["item-with-entity-data"]["car"].icon = icon("automobile")
   raw["item-with-entity-data"]["tank"].icon = icon("tractor")
+  raw["item-with-entity-data"]["locomotive"].icon = icon("steam-locomotive")
 end
 
 if (util.setting("change-weapons")) then
