@@ -69,8 +69,9 @@ if (util.setting("change-science")) then
 end
 
 if (util.setting("change-utility-sprites")) then
-  raw['utility-sprites'].default['electricity_icon_unplugged'].filename = icon('thonk')
+  raw['utility-sprites'].default['electricity_icon_unplugged'].filename = icon('thank')
   raw['utility-sprites'].default['ammo_icon'].filename = icon('anger-symbol')
+  raw['utility-sprites'].default['fuel_icon'].filename = icon('anger-symbol')
   raw['utility-sprites'].default['too_far_from_roboport_icon'].filename = icon('antenna-with-bars')
   local ghost_cursor = raw['utility-sprites'].default['ghost_cursor']
   ghost_cursor.filename = util.graphic('ghost')
