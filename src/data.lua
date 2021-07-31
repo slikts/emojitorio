@@ -17,7 +17,7 @@ if (util.setting("change-items")) then
   item["battery"].icon = icon("battery")
   item["satellite"].icon = icon("hundred-points-symbol")
   item["explosives"].icon = icon("firecracker")
-  item["computer"].icon = icon("abacus")
+  -- item["computer"].icon = icon("abacus")
   item["plastic-bar"].icon = icon("roll-of-paper")
   item["sulfur"].icon = icon("bar-of-soap")
   item["rocket-control-unit"].icon = icon("pager")

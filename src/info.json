@@ -1,11 +1,11 @@
 {
   "name": "Emojitorio",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "title": "Emojitorio",
   "author": "slikts",
   "contact": "dabas@untu.ms",
   "homepage": "https://github.com/slikts/emojitorio",
-  "factorio_version": "0.18",
-  "dependencies": ["base >= 0.18"],
+  "factorio_version": "1.1",
+  "dependencies": ["base >= 1.1"],
   "description": "Factorio with emojis."
 }
